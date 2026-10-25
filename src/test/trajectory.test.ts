@@ -49,3 +49,27 @@ describe("trajectory rules", () => {
     expect(r.latestWithinBoundary).toBe(true);
   });
 });
+
+describe("experiment lab options", () => {
+  const snapshot = JSON.stringify(SCENARIOS);
+  it("default options equal original results", () => {
+    for (const s of Object.values(SCENARIOS))
+      expect(analyze(s, 30, { sdMultiplier: 2, runLength: 3 })).toEqual(analyze(s));
+  });
+  it("earliest possible flag is 10 + runLength", () => {
+    const low = [...Array(10).fill(90).map((v, i) => v + (i % 2)), ...Array(20).fill(50)];
+    for (let k = 1; k <= 5; k++) expect(analyze(low, 30, { sdMultiplier: 2, runLength: k }).firstFlag?.session).toBe(10 + k);
+  });
+  it("1 departure at 2 SD flags temporary dip at session 18", () =>
+    expect(analyze(SCENARIOS["Temporary Dip"], 30, { sdMultiplier: 2, runLength: 1 }).firstFlag?.session).toBe(18));
+  it("boundary scales with SD multiplier", () => {
+    const b1 = analyze(SCENARIOS["Stable"], 30, { sdMultiplier: 1, runLength: 3 }).baseline!;
+    const b3 = analyze(SCENARIOS["Stable"], 30, { sdMultiplier: 3, runLength: 3 }).baseline!;
+    expect(b1.mean - b1.lower).toBeCloseTo(b1.sd, 10);
+    expect(b3.mean - b3.lower).toBeCloseTo(3 * b3.sd, 10);
+  });
+  it("scores are unchanged after lab runs", () => {
+    for (const k of [1, 2, 3]) for (const s of Object.values(SCENARIOS)) analyze(s, 30, { sdMultiplier: k, runLength: 1 });
+    expect(JSON.stringify(SCENARIOS)).toBe(snapshot);
+  });
+});
