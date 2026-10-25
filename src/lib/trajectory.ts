@@ -36,5 +36,5 @@ export function analyze(scores: number[]) {
     if (score < SHARED_CUTOFF && firstCutoff === null) firstCutoff = session;
     return { session, score, below, flag };
   });
-  return { mean, sd, lower, rows, firstFlag, firstCutoff, latest: scores[scores.length - 1] };
+  return { mean, sd, lower, rows, firstFlag, firstCutoff, latest: scores[scores.length - 1]! };
 }
