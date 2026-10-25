@@ -193,7 +193,7 @@ function Index() {
           <h2 className="font-semibold">Simulated task score by session</h2>
           <p className="text-xs text-muted-foreground">Vertical axis starts at 60, not 0.</p>
         </div>
-        <div className="h-80 sm:h-96">
+        <div className="h-[28rem] sm:h-[30rem]">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={chartData} margin={{ top: 10, right: 10, left: -10, bottom: 20 }}>
               <CartesianGrid stroke="var(--border)" />
@@ -211,7 +211,7 @@ function Index() {
               <YAxis domain={[60, 100]} ticks={[60, 70, 80, 90, 100]} allowDataOverflow
                 label={{ value: "Simulated task score", angle: -90, position: "insideLeft", offset: 20 }} />
               <Tooltip formatter={(v: number) => v.toFixed(1)} labelFormatter={(l) => `Session ${l}`} />
-              <Legend verticalAlign="top" height={44} />
+              <Legend verticalAlign="bottom" wrapperStyle={{ paddingTop: 28, fontSize: 13 }} />
               <Line name="Simulated task score" dataKey="score" stroke="var(--score)" strokeWidth={2.5} dot={{ r: 3 }} connectNulls={false} isAnimationActive={!reduceMotion} animationDuration={300} />
               <Line name="Fixed personal baseline" dataKey="baseline" stroke="var(--baseline)" strokeDasharray="6 4" dot={false} isAnimationActive={false} />
               <Line name="Personal lower boundary" dataKey="lower" stroke="var(--boundary)" strokeWidth={2} strokeDasharray="2 3" dot={false} isAnimationActive={false} />
