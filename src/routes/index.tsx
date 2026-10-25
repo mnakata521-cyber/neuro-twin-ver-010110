@@ -86,6 +86,29 @@ function Index() {
         </p>
       </header>
 
+      <div role="tablist" aria-label="View" className="mb-6 flex gap-1 border-b">
+        {(["replay", "lab"] as const).map((t) => (
+          <button key={t} role="tab" aria-selected={tab === t} onClick={() => setTab(t)}
+            className={`-mb-px border-b-2 px-4 py-2 text-sm font-semibold transition-colors ${tab === t ? "border-primary text-foreground" : "border-transparent text-muted-foreground hover:text-foreground"}`}
+          >{t === "replay" ? "Session Replay" : "Experiment Lab"}</button>
+        ))}
+      </div>
+
+      {tab === "replay" ? <Dashboard /> : <ExperimentLab />}
+    </main>
+  );
+}
+
+function Dashboard() {
+  const [name, setName] = useState<ScenarioName>("Stable");
+  const [session, setSession] = useState(1);
+  const [playing, setPlaying] = useState(false);
+  const [reduceMotion, setReduceMotion] = useState(false);
+DASHBOARD_EFFECTS_PLACEHOLDER
+  return (
+    <>
+
+
       <div className="mb-5" role="radiogroup" aria-label="Participant scenario">
         <p className="mb-2 text-sm font-medium text-muted-foreground">Participant scenario (constructed examples)</p>
         <div className="flex flex-wrap gap-2">
@@ -274,7 +297,7 @@ function Index() {
         This rule-based prototype illustrates personal-trajectory monitoring. It does not diagnose disease, identify the
         cause of a change, or demonstrate clinical effectiveness.
       </p>
-    </main>
+    </>
   );
 }
 
