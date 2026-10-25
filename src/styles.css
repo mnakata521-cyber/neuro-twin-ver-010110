@@ -52,6 +52,13 @@
   --color-chart-4: var(--chart-4);
   --color-chart-5: var(--chart-5);
   --color-sidebar: var(--sidebar);
+  --color-score: var(--score);
+  --color-baseline: var(--baseline);
+  --color-boundary: var(--boundary);
+  --color-cutoff: var(--cutoff);
+  --color-warning: var(--warning);
+  --font-sans: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
   --color-sidebar-foreground: var(--sidebar-foreground);
   --color-sidebar-primary: var(--sidebar-primary);
   --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
@@ -62,8 +69,13 @@
 }
 
 :root {
-  --radius: 0.625rem;
-  --background: oklch(1 0 0);
+  --radius: 0.5rem;
+  --score: oklch(0.52 0.17 255);
+  --baseline: oklch(0.55 0.01 260);
+  --boundary: oklch(0.68 0.17 50);
+  --cutoff: oklch(0.56 0.21 27);
+  --warning: oklch(0.96 0.05 85);
+  --background: oklch(0.985 0.003 250);
   --foreground: oklch(0.129 0.042 264.695);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.129 0.042 264.695);
