@@ -6,6 +6,7 @@ import {
 import {
   analyze, BASELINE_SESSIONS, SCENARIOS, SHARED_CUTOFF, TOTAL_SESSIONS, type ScenarioName,
 } from "@/lib/trajectory";
+import { ExperimentLab } from "@/components/ExperimentLab";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -30,6 +31,38 @@ const DESCRIPTIONS: Record<ScenarioName, string> = {
 const f = (n: number) => n.toFixed(1);
 
 function Index() {
+  const [tab, setTab] = useState<"replay" | "lab">("replay");
+
+  return (
+    <main className="mx-auto max-w-5xl px-4 py-8 sm:py-12">
+      <header className="mb-6">
+        <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">Personal Trajectory Monitor</h1>
+        <p className="mt-2 text-muted-foreground">
+          Exploring the baseline and change-detection components of a proposed neurological digital twin.
+        </p>
+        <p role="note" className="mt-4 rounded-md border border-boundary bg-warning px-4 py-3 font-semibold">
+          ⚠ Synthetic data. Experimental thresholds. Not clinical evidence.
+        </p>
+        <p className="mt-2 text-xs text-muted-foreground">
+          A single-signal, rule-based demonstration — not a complete neurological digital twin, trained AI model,
+          diagnostic tool, or validated measure of neurological health.
+        </p>
+      </header>
+
+      <div role="tablist" aria-label="View" className="mb-6 flex gap-1 border-b">
+        {(["replay", "lab"] as const).map((t) => (
+          <button key={t} role="tab" aria-selected={tab === t} onClick={() => setTab(t)}
+            className={`-mb-px border-b-2 px-4 py-2 text-sm font-semibold transition-colors ${tab === t ? "border-primary text-foreground" : "border-transparent text-muted-foreground hover:text-foreground"}`}
+          >{t === "replay" ? "Session Replay" : "Experiment Lab"}</button>
+        ))}
+      </div>
+
+      {tab === "replay" ? <Dashboard /> : <ExperimentLab />}
+    </main>
+  );
+}
+
+function Dashboard() {
   const [name, setName] = useState<ScenarioName>("Stable");
   const [session, setSession] = useState(1);
   const [playing, setPlaying] = useState(false);
@@ -70,41 +103,6 @@ function Index() {
 
   const switchTo = (n: ScenarioName) => { setPlaying(false); setSession(1); setName(n); };
 
-  return (
-    <main className="mx-auto max-w-5xl px-4 py-8 sm:py-12">
-      <header className="mb-6">
-        <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">Personal Trajectory Monitor</h1>
-        <p className="mt-2 text-muted-foreground">
-          Exploring the baseline and change-detection components of a proposed neurological digital twin.
-        </p>
-        <p role="note" className="mt-4 rounded-md border border-boundary bg-warning px-4 py-3 font-semibold">
-          ⚠ Synthetic data. Experimental thresholds. Not clinical evidence.
-        </p>
-        <p className="mt-2 text-xs text-muted-foreground">
-          A single-signal, rule-based demonstration — not a complete neurological digital twin, trained AI model,
-          diagnostic tool, or validated measure of neurological health.
-        </p>
-      </header>
-
-      <div role="tablist" aria-label="View" className="mb-6 flex gap-1 border-b">
-        {(["replay", "lab"] as const).map((t) => (
-          <button key={t} role="tab" aria-selected={tab === t} onClick={() => setTab(t)}
-            className={`-mb-px border-b-2 px-4 py-2 text-sm font-semibold transition-colors ${tab === t ? "border-primary text-foreground" : "border-transparent text-muted-foreground hover:text-foreground"}`}
-          >{t === "replay" ? "Session Replay" : "Experiment Lab"}</button>
-        ))}
-      </div>
-
-      {tab === "replay" ? <Dashboard /> : <ExperimentLab />}
-    </main>
-  );
-}
-
-function Dashboard() {
-  const [name, setName] = useState<ScenarioName>("Stable");
-  const [session, setSession] = useState(1);
-  const [playing, setPlaying] = useState(false);
-  const [reduceMotion, setReduceMotion] = useState(false);
-DASHBOARD_EFFECTS_PLACEHOLDER
   return (
     <>
 
