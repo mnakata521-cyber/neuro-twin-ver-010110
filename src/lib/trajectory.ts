@@ -46,8 +46,8 @@ export function analyze(scores: readonly (number | null)[], upTo: number = TOTAL
   }
 
   let run: number[] = [];
-  let firstFlag: { session: number; sessions: number[]; scores: number[] } | null = null;
-  let firstCutoff: number | null = null;
+  let firstFlag = null as { session: number; sessions: number[]; scores: number[] } | null;
+  let firstCutoff = null as number | null;
   const rows: Row[] = revealed.map((raw, i) => {
     const session = i + 1;
     const score = valid(raw) ? raw : null;
