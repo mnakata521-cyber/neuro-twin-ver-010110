@@ -28,7 +28,11 @@ export type PersonalStatus = "establishing" | "monitoring" | "flagged" | "unavai
  * Analyze one participant using ONLY sessions 1..upTo.
  * Scores are indexed by session (index 0 = session 1); null/invalid = missing.
  */
-export function analyze(scores: readonly (number | null)[], upTo: number = TOTAL_SESSIONS) {
+export interface RuleOptions { sdMultiplier: number; runLength: number }
+export const DEFAULT_RULE: RuleOptions = Object.freeze({ sdMultiplier: 2, runLength: RUN_LENGTH });
+
+export function analyze(scores: readonly (number | null)[], upTo: number = TOTAL_SESSIONS, opts: RuleOptions = DEFAULT_RULE) {
+  const { sdMultiplier, runLength } = opts;
   const n = Math.max(0, Math.min(upTo, scores.length));
   const revealed = scores.slice(0, n);
   const warnings: string[] = [];
@@ -41,7 +45,7 @@ export function analyze(scores: readonly (number | null)[], upTo: number = TOTAL
       const b = base as number[];
       const mean = b.reduce((a, c) => a + c, 0) / b.length;
       const sd = Math.sqrt(b.reduce((a, c) => a + (c - mean) ** 2, 0) / (b.length - 1));
-      baseline = { mean, sd, lower: mean - 2 * sd };
+      baseline = { mean, sd, lower: mean - sdMultiplier * sd };
     } else warnings.push("Baseline cannot be established: a baseline session (1–10) is missing.");
   }
 
@@ -58,9 +62,9 @@ export function analyze(scores: readonly (number | null)[], upTo: number = TOTAL
     }
     const below = score < baseline.lower;
     run = below ? [...run, session] : [];
-    const flag = run.length >= RUN_LENGTH;
+    const flag = run.length >= runLength;
     if (flag && !firstFlag) {
-      const seq = run.slice(-RUN_LENGTH);
+      const seq = run.slice(-runLength);
       firstFlag = { session, sessions: seq, scores: seq.map((s) => scores[s - 1] as number) };
     }
     return { session, score, below, flag };
