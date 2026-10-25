@@ -19,11 +19,11 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-const NAMES = Object.keys(SCENARIOS);
+const NAMES = Object.keys(SCENARIOS) as (keyof typeof SCENARIOS)[];
 const f = (n: number) => n.toFixed(1);
 
 function Index() {
-  const [name, setName] = useState(NAMES[0]);
+  const [name, setName] = useState<keyof typeof SCENARIOS>("Stable");
   const result = useMemo(() => {
     try { return { ok: true as const, ...analyze(SCENARIOS[name]) }; }
     catch (e) { return { ok: false as const, error: (e as Error).message }; }

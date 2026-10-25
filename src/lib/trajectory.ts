@@ -1,9 +1,9 @@
 // Scores extracted verbatim from Personal_Trajectory_Monitor.xlsx (column B, sessions 1–30).
-export const SCENARIOS: Record<string, number[]> = {
+export const SCENARIOS = {
   Stable: [90, 92, 89, 91, 90, 93, 88, 91, 90, 92, 91, 89, 92, 90, 93, 91, 88, 90, 92, 91, 89, 93, 90, 91, 92, 88, 91, 90, 93, 89],
   "Gradual Change": [90, 92, 89, 91, 90, 93, 88, 91, 90, 92, 91, 90, 89, 90, 88, 87, 88, 86, 85, 86, 84, 83, 84, 82, 81, 82, 80, 79, 78, 77],
   "Temporary Dip": [90, 92, 89, 91, 90, 93, 88, 91, 90, 92, 91, 89, 92, 90, 93, 91, 90, 80, 79, 90, 92, 89, 91, 93, 90, 88, 92, 91, 89, 90],
-};
+} satisfies Record<string, number[]>;
 
 export const SHARED_CUTOFF = 70;
 export const BASELINE_SESSIONS = 10;
