@@ -12,9 +12,9 @@ import { Results } from "@/components/Results";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Personal Trajectory Monitor" },
+      { title: "NeuroTwin — Personal Trajectory Monitor" },
       { name: "description", content: "Interactive replay exploring the baseline and change-detection components of a proposed neurological digital twin, using synthetic data." },
-      { property: "og:title", content: "Personal Trajectory Monitor" },
+      { property: "og:title", content: "NeuroTwin — Personal Trajectory Monitor" },
       { property: "og:description", content: "Session-by-session replay comparing a personal-baseline rule with an illustrative shared cutoff. Synthetic data." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -37,7 +37,8 @@ function Index() {
   return (
     <main className="mx-auto max-w-5xl px-4 py-8 sm:py-12">
       <header className="mb-6">
-        <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">Personal Trajectory Monitor</h1>
+        <h1 className="aero-title text-4xl font-extrabold tracking-tight sm:text-5xl">NeuroTwin</h1>
+        <p className="mt-1 text-sm font-semibold uppercase tracking-widest text-muted-foreground">Personal Trajectory Monitor</p>
         <p className="mt-2 text-muted-foreground">
           Exploring the baseline and change-detection components of a proposed neurological digital twin.
         </p>
