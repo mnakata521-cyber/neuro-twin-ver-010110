@@ -7,6 +7,7 @@ import {
   analyze, BASELINE_SESSIONS, SCENARIOS, SHARED_CUTOFF, TOTAL_SESSIONS, type ScenarioName,
 } from "@/lib/trajectory";
 import { ExperimentLab } from "@/components/ExperimentLab";
+import { Results } from "@/components/Results";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -31,7 +32,7 @@ const DESCRIPTIONS: Record<ScenarioName, string> = {
 const f = (n: number) => n.toFixed(1);
 
 function Index() {
-  const [tab, setTab] = useState<"replay" | "lab">("replay");
+  const [tab, setTab] = useState<"replay" | "lab" | "results">("replay");
 
   return (
     <main className="mx-auto max-w-5xl px-4 py-8 sm:py-12">
@@ -50,14 +51,14 @@ function Index() {
       </header>
 
       <div role="tablist" aria-label="View" className="mb-6 flex gap-1 border-b">
-        {(["replay", "lab"] as const).map((t) => (
+        {(["replay", "lab", "results"] as const).map((t) => (
           <button key={t} role="tab" aria-selected={tab === t} onClick={() => setTab(t)}
             className={`-mb-px border-b-2 px-4 py-2 text-sm font-semibold transition-colors ${tab === t ? "border-primary text-foreground" : "border-transparent text-muted-foreground hover:text-foreground"}`}
-          >{t === "replay" ? "Session Replay" : "Experiment Lab"}</button>
+          >{t === "replay" ? "Session Replay" : t === "lab" ? "Experiment Lab" : "Results"}</button>
         ))}
       </div>
 
-      {tab === "replay" ? <Dashboard /> : <ExperimentLab />}
+      {tab === "replay" ? <Dashboard /> : tab === "lab" ? <ExperimentLab /> : <Results />}
     </main>
   );
 }
